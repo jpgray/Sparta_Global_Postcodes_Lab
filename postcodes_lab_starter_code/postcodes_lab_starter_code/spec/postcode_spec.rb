@@ -6,7 +6,9 @@ describe Postcodesio do
 
     before(:all) do
       @postcodesio = Postcodesio.new
-      @response = @postcodesio.get_single_postcode('KT198JG') #input a postcode
+      @postcode_generator = Data_generator.new
+      @generated_postcode = @postcodesio.trim_postcode(@postcode_generator.generate_postcode)
+      @response = @postcodesio.get_single_postcode(@generated_postcode) #input a postcode
     end
 
     it "should respond with a status message of 200" do
@@ -138,70 +140,102 @@ describe Postcodesio do
       end
 
       it "should return an ordnance survey eastings value as integer" do
-        expect(@response_result_to_check["eastings"]).to be_kind_of Integer
+        @result_array.each do |result|
+          expect(result["eastings"]).to be_kind_of Integer
+        end
       end
 
-      it "should return an ordnance survey eastings value as integer" do
-        expect(@response_result_to_check["northings"]).to be_kind_of Integer
+      it "should return an ordnance survey northings value as integer" do
+        @result_array.each do |result|
+          expect(result["northings"]).to be_kind_of Integer
+        end
       end
 
       it "should return a country which is one of the four constituent countries of the UK" do
-        expect(@response_result_to_check["country"]).to eq("England").or eq("Scotland").or eq("Wales").or eq("Northern Ireland")
+        @result_array.each do |result|
+          expect(result["country"]).to eq("England").or eq("Scotland").or eq("Wales").or eq("Northern Ireland")
+        end
       end
 
       it "should return a string value for NHS authority " do
-        expect(@response_result_to_check["nhs_ha"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["nhs_ha"]).to be_kind_of String
+        end
       end
 
       it "should return a longitude float value" do
-        expect(@response_result_to_check["longitude"]).to be_kind_of Float
+        @result_array.each do |result|
+          expect(result["longitude"]).to be_kind_of Float
+        end
       end
 
       it "should return a latitude float value" do
-        expect(@response_result_to_check["latitude"]).to be_kind_of Float
+        @result_array.each do |result|
+          expect(result["latitude"]).to be_kind_of Float
+        end
       end
 
       it "should return a parliamentary constituency string" do
-        expect(@response_result_to_check["parliamentary_constituency"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["parliamentary_constituency"]).to be_kind_of String
+        end
       end
 
       it "should return a european_electoral_region string" do
-        expect(@response_result_to_check["european_electoral_region"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["european_electoral_region"]).to be_kind_of String
+        end
       end
 
       it "should return a primary_care_trust string" do
-        expect(@response_result_to_check["primary_care_trust"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["primary_care_trust"]).to be_kind_of String
+        end
       end
 
       it "should return a region string" do
-        expect(@response_result_to_check["region"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["region"]).to be_kind_of String
+        end
       end
 
       it "should return a parish string" do
-        expect(@response_result_to_check["parish"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["parish"]).to be_kind_of String
+        end
       end
 
       it "should return a lsoa string" do
-        expect(@response_result_to_check["lsoa"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["lsoa"]).to be_kind_of String
+        end
       end
 
       it "should return a msoa string" do
-        expect(@response_result_to_check["msoa"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["msoa"]).to be_kind_of String
+        end
       end
       # admin ward and county are not documented however tested below
 
       it "should return a admin_district string" do
-        expect(@response_result_to_check["admin_district"]).to be_kind_of String
+        @result_array.each do |result|
+          expect(result["admin_district"]).to be_kind_of String
+        end
       end
 
       it "should return a incode string of three characters" do
-        expect(@response_result_to_check["incode"]).to be_kind_of String
-        expect(@response_result_to_check["incode"].length).to eq 3
+        @result_array.each do |result|
+          expect(result["incode"]).to be_kind_of String
+          expect(result["incode"].length).to eq 3
+        end
       end
 
       it "should return a incode string of 3-4 characters" do
-        expect(@response_result_to_check["incode"]).to be_kind_of String
-        expect(@response_result_to_check["incode"].length).to eq(3).or eq 4
+        @result_array.each do |result|
+          expect(result["incode"]).to be_kind_of String
+          expect(result["incode"].length).to eq(3).or eq 4
+        end
       end
 
     end
