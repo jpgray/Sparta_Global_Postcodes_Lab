@@ -98,9 +98,12 @@ describe Postcodesio do
 
     before(:all) do
       @postcodesio = Postcodesio.new
-      @response = @postcodesio.get_multiple_postcodes(['KT19 8JG', 'KT18 7EG']) #Add in array of postcodes
+      @pcode1 = 'KT19 8JG'
+      @pcode2 = 'KT18 7EG'
+      @response = @postcodesio.get_multiple_postcodes([@pcode1, @pcode2]) #Add in array of postcodes
       # to check a different set of result than the first, change the "[0]" below to the appropriate index
       @response_result_to_check = @postcodesio.get_result(@response)[1]["result"]
+      @result_array = @postcodesio.get_results_array(@response)
     end
 
     it "should respond with a status message of 200" do
@@ -108,18 +111,20 @@ describe Postcodesio do
     end
 
     it "should return the first query as the first postcode in the response" do
-      expect(@postcodesio.get_result(@response)[0]["query"]).to eq 'KT19 8JG'
+      expect(@postcodesio.get_result(@response)[0]["query"]).to eq @pcode1
 
     end
 
     it "should return the second query as the first postcode in the response" do
-      expect(@postcodesio.get_result(@response)[1]["query"]).to eq 'KT18 7EG'
+      expect(@postcodesio.get_result(@response)[1]["query"]).to eq @pcode2
     end
 
     context "in the multiple results hash" do
 
       it "should have a results hash" do
-        expect(@response_result_to_check).to be_kind_of Hash
+        @result_array.each do |result|
+          expect(result).to be_kind_of Hash
+        end
       end
 
       it "should return a postcode between 5-7 in length"  do

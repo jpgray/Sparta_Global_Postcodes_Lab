@@ -22,6 +22,14 @@ class Postcodesio
     response["result"]
   end
 
+  def get_results_array (response)
+    results_array = []
+    response["result"].each do |result|
+      results_array << result["result"]
+    end
+    results_array
+  end
+
   def get_postcode(response)
     postcode = get_result(response)["postcode"]
     trim_postcode (postcode)
@@ -36,3 +44,5 @@ end
 # @response = @postcodesio.get_multiple_postcodes(['KT19 8JG', 'KT18 2DJ']) #Add in array of postcodes
 # @response_result_to_check = @postcodesio.get_result(@response)[0]["result"]
 # puts @response_result_to_check
+# puts @response
+# puts @postcodesio.get_results_array(@response)
