@@ -98,11 +98,9 @@ describe Postcodesio do
 
     before(:all) do
       @postcodesio = Postcodesio.new
-      @pcode1 = 'KT19 8JG'
-      @pcode2 = 'KT18 7EG'
-      @response = @postcodesio.get_multiple_postcodes([@pcode1, @pcode2]) #Add in array of postcodes
-      # to check a different set of result than the first, change the "[0]" below to the appropriate index
-      @response_result_to_check = @postcodesio.get_result(@response)[1]["result"]
+      @postcode_generator = Data_generator.new
+      @generated_postcodes = @postcode_generator.generate_postcodes
+      @response = @postcodesio.get_multiple_postcodes(@generated_postcodes) #Add in array of postcodes
       @result_array = @postcodesio.get_results_array(@response)
     end
 
@@ -111,12 +109,11 @@ describe Postcodesio do
     end
 
     it "should return the first query as the first postcode in the response" do
-      expect(@postcodesio.get_result(@response)[0]["query"]).to eq @pcode1
-
+      expect(@postcodesio.get_result(@response)[0]["query"]).to eq @generated_postcodes[0]
     end
 
     it "should return the second query as the first postcode in the response" do
-      expect(@postcodesio.get_result(@response)[1]["query"]).to eq @pcode2
+      expect(@postcodesio.get_result(@response)[1]["query"]).to eq @generated_postcodes[1]
     end
 
     context "in the multiple results hash" do
@@ -128,12 +125,16 @@ describe Postcodesio do
       end
 
       it "should return a postcode between 5-7 in length"  do
-        expect(@postcodesio.trim_postcode(@response_result_to_check["postcode"]).length).to be_between(5, 7)
+        @result_array.each do |result|
+          expect(@postcodesio.trim_postcode(result["postcode"]).length).to be_between(5,7)
+        end
       end
 
       it "should return an quality key integer between 1-9" do
-        expect(@response_result_to_check["quality"]).to be_kind_of Integer
-        expect(@response_result_to_check["quality"]).to be_between(1, 9)
+        @result_array.each do |result|
+          expect(result["quality"]).to be_kind_of Integer
+          expect(result["quality"]).to be_between(1, 9)
+        end
       end
 
       it "should return an ordnance survey eastings value as integer" do
