@@ -14,4 +14,19 @@ class Postcodesio
     JSON.parse(self.class.post('/postcodes', body: { "postcodes" => postcodes_array}).body)
   end
 
+  def get_status(response)
+    response["status"]
+  end
+
+  def get_result(response)
+    response["result"]
+  end
+
+  def get_postcode(response)
+    postcode = get_result(response)["postcode"]
+    postcode.gsub(" ","")
+  end
 end
+
+# test = Postcodesio.new
+# puts test.get_single_postcode('KT198JG')
