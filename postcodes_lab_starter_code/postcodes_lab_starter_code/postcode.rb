@@ -24,9 +24,15 @@ class Postcodesio
 
   def get_postcode(response)
     postcode = get_result(response)["postcode"]
+    trim_postcode (postcode)
+  end
+
+  def trim_postcode (postcode)
     postcode.gsub(" ","")
   end
 end
 
-# test = Postcodesio.new
-# puts test.get_single_postcode('KT198JG')
+# @postcodesio = Postcodesio.new
+# @response = @postcodesio.get_multiple_postcodes(['KT19 8JG', 'KT18 2DJ']) #Add in array of postcodes
+# @response_result_to_check = @postcodesio.get_result(@response)[0]["result"]
+# puts @response_result_to_check
