@@ -195,13 +195,13 @@ describe Postcodesio do
 
       it "should return a region string" do
         @result_array.each do |result|
-          expect(result["region"]).to be_kind_of String
+          expect(result["region"]).to be_kind_of(String).or be_kind_of(NilClass)
         end
       end
 
       it "should return a parish string" do
         @result_array.each do |result|
-          expect(result["parish"]).to be_kind_of String
+          expect(result["parish"]).to be_kind_of(String).or be_kind_of(NilClass)
         end
       end
 
@@ -213,7 +213,7 @@ describe Postcodesio do
 
       it "should return a msoa string" do
         @result_array.each do |result|
-          expect(result["msoa"]).to be_kind_of String
+          expect(result["msoa"]).to be_kind_of(String).or be_kind_of(NilClass)
         end
       end
       # admin ward and county are not documented however tested below
