@@ -39,10 +39,3 @@ class Postcodesio
     postcode.gsub(" ","")
   end
 end
-
-# @postcodesio = Postcodesio.new
-# @response = @postcodesio.get_multiple_postcodes(['KT19 8JG', 'KT18 2DJ']) #Add in array of postcodes
-# @response_result_to_check = @postcodesio.get_result(@response)[0]["result"]
-# puts @response_result_to_check
-# puts @response
-# puts @postcodesio.get_results_array(@response)
